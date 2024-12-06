@@ -11,7 +11,7 @@ const menuLinks = [
 	{
 		path: "#feedback",
 		label: "Feedback",
-		className: "px-3 py-2 bg-secondary rounded-md text-white",
+		className: "px-3 py-2 bg-secondary-200 rounded-md text-white",
 	},
 ];
 
@@ -187,7 +187,7 @@ export const Navlink = ({ children, path, className }) => {
 				className={
 					className
 						? className
-						: "px-2 py-1 rounded-[4px] hover:bg-secondary hover:bg-opacity-20 ease-in-out duration-500"
+						: "px-2 py-1 rounded-[4px] hover:bg-secondary-200 hover:bg-opacity-20 ease-in-out duration-500"
 				}
 			>
 				{children}

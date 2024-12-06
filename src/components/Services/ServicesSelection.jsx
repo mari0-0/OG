@@ -6,20 +6,22 @@ import { IoStar, IoStarOutline } from "react-icons/io5";
 import { MdGpsFixed } from "react-icons/md";
 
 const ServicesSelection = () => {
-	const [activeGarage, setActiveGarage] = useState(null); // Track which Garage is active
+	const [activeGarage, setActiveGarage] = useState(null);
 
 	const handleGarageClick = (garageId) => {
-		setActiveGarage(garageId);
-		gsap.to(".popover", {
-			clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-			duration: 0.5,
-			ease: "power4.inOut",
-		});
-	};
+		if (activeGarage === garageId) {
+			gsap.to(".popover", {
+				// clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+				opacity: 0,
+			});
+			setActiveGarage(null);
+			return;
+		}
 
-	const handlePopoverClose = () => {
-		gsap.to(".popover", {
-			clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+		setActiveGarage(garageId);
+		gsap.to(".popover",{
+			// clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+			opacity: 1,
 			duration: 0.5,
 			ease: "power4.inOut",
 		});
@@ -28,7 +30,7 @@ const ServicesSelection = () => {
 	return (
 		<section className="w-full h-[90vh] flex">
 			{/* Left Sidebar */}
-			<div className="w-1/4 h-full bg-orange-100">
+			<div className="w-1/4 h-full bg-orange-100 relative z-10">
 				<div className="m-2 px-2 flex justify-between items-center rounded-md bg-primary-100">
 					<input
 						type="text"
@@ -47,7 +49,7 @@ const ServicesSelection = () => {
 							<MdGpsFixed />
 						</span>
 					</button>
-					<button className="w-1/2 py-3 rounded-md bg-secondary text-white flex justify-center items-center gap-2">
+					<button className="w-1/2 py-3 rounded-md bg-secondary-200 text-white flex justify-center items-center gap-2">
 						<span>Search</span>
 						<span>
 							<FiSearch />
@@ -64,17 +66,24 @@ const ServicesSelection = () => {
 
 			{/* Maps Section */}
 			<div
-				className="w-3/4 h-full bg-orange-700 relative"
-				onClick={handlePopoverClose}
+				className="w-3/4 h-full p-4 bg-neutral-600 relative "
 			>
+
 				<div
-					className="popover w-2/5 h-full p-2 bg-orange-900 absolute "
-					style={{
-						clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
-					}}
+					className="popover w-2/6 h-[95%] p-2 bg-white absolute rounded-md left-4 opacity-0 overflow-y-scroll"
 				>
-					<div className="w-full h-32 bg-black rounded-md pointer-events-auto"></div>
-					{activeGarage ? `Garage ${activeGarage}` : ""}
+					<div className="w-full h-1/3 bg-neutral-400 rounded-md pointer-events-auto"></div>
+					<h1 className="text-3xl mt-4 font-bold">{activeGarage ? `Garage ${activeGarage}` : ""}</h1>
+					<p className="mt-4 text-neutral-700 ">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab voluptas voluptatum sequi quas dignissimos at modi, ad tempora harum rerum minima porro dicta aspernatur quaerat soluta ullam numquam recusandae minus.</p>
+					<h1 className="text-xl mt-6 font-semibold">Services Offered</h1>
+					<div className="mt-4 flex flex-col gap-2">
+						<Service />
+						<Service />
+						<Service />
+						<Service />
+						<Service />
+						<Service />
+					</div>
 				</div>
 			</div>
 		</section>
@@ -83,14 +92,14 @@ const ServicesSelection = () => {
 
 export default ServicesSelection;
 
-export const Garage = ({ handleOnClick }) => {
+export const Garage = ({ onClick }) => {
 	return (
 		<div
 			className="garage w-full px-2 py-4 gap-2 flex justify-between items-center hover:bg-orange-200 cursor-pointer"
-			onClick={handleOnClick}
+			onClick={onClick}
 		>
 			<div className="w-full flex flex-col">
-				<div className="font-semibold">Anil Garage</div>
+				<h4 className="font-semibold">Anil Garage</h4>
 				<div className="flex gap-2 items-center text-neutral-800">
 					<div>4</div>
 					<div className="flex">
@@ -111,3 +120,22 @@ export const Garage = ({ handleOnClick }) => {
 		</div>
 	);
 };
+
+export const Service = ({ serviceName, rating }) => {
+	return(
+		<div className="w-full py-2 flex justify-between items-center">
+			<h5 className="text-lg font-semibold text-neutral-800">service 1</h5>
+			<div className="flex gap-2 items-center text-neutral-800">
+				<div>4</div>
+				<div className="flex">
+					<IoStar />
+					<IoStar />
+					<IoStar />
+					<IoStar />
+					<IoStarOutline />
+				</div>
+				<div>(121)</div>
+			</div>
+		</div>
+	)
+}
